@@ -1,0 +1,32 @@
+---
+title: 'CORE S115 Fall 2026: Lab 0'
+output: pdf_document
+date: "2026-08-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+To run files one a time click command + enter on the line. 
+To run the entire code chunk, click command + shift + enter. 
+
+```{r}
+
+print("hello")
+print(1+2)
+print("1+2")
+
+```
+
+You can produce pdf documents by **knitting** this document.
+To do this, click the **Knit** button (the one with the yarn) 
+
+Now add your own code chunk, and print the following: 
+
+1. "Truth Through the Science Looking Glass"
+2. The output of 7 times 6. 
+3. The words "7 times 6"
+
