@@ -1,0 +1,262 @@
+---
+title: 'CORE S115 Fall 2026: Lab 1'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+## Variables
+
+Variables store values. In the following case, we are storing the value "hello" in the variable x and "class" in variable y. The variable gets created when you run the code. You can see all the variables you created in the Values pane on the top right of your window.   
+
+```{r}
+
+x = "hello"
+y = "world"
+
+```
+
+#### Code Q1
+Create a variable called `class_name` and store "Truth through the Science Looking Glass" in the variable. Remember you have to run the code for the variable to get created!
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+
+```
+
+#### Code Q2
+Multiply seven times 6, and store the value of this in a variable called `life`. 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+
+
+```
+
+You can retrieve the value stored in the variable by typing that variable in a code chunk. For example, if you put the variable in the print() function, it will print the value that is stored in the variable. 
+
+```{r, collapse=TRUE}
+
+print(x)
+print(y)
+
+```
+
+#### Code Q3
+Print the values that are stored in the new variables you created. 
+
+```{r}
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+You can also change the values in variables by assigning the variable to a new value. 
+
+```{r}
+
+x = "hi"
+y = "hello"
+
+
+```
+
+#### Written Q1
+What do you think is stored in x and y now? 
+
+**Answer**
+
+#### Code Q4
+Verify your answer by writing some code. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+## Collections
+
+You can put values of the same type together in a collection. 
+
+```{r}
+
+print(c(1,2,3))
+print(c(1:10)) ## Note this is a convenient way of getting 10 numbers without typing them all
+
+print(c("hi", "hello"))
+
+y <- c(1:100)
+print(y[20]) ## prints the 20th element
+
+```
+
+You can easily run mathematical operations on all values in a collection of numbers at once. 
+
+```{r}
+
+## Multiply collection by a single number
+x <- c(1,2,3)
+print(x*5)
+
+
+## Element-wise multiplication between two numbers
+
+y <- c(4,5,6)
+print(x*y)
+
+
+```
+
+#### Code Q5
+Create a collection with the numbers 1 to 20 and assign it to a variable called `twenty`. 
+Print the 7th element of this variable. 
+ 
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Code Q6
+Divide all the numbers in `twenty` by 2 and print the result
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+#### Code Q7
+Create a collection with the numbers 21 to 40. Store it in a variable called `next_twenty`. Then divide the values in `twenty` by the values in `next_twenty`. Print the result. 
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+## Conditional assignment
+
+You can assign values to variables based on whether or not they meet a particular condition. 
+You can change the value of `num` and see how the values that get printed change.
+
+```{r}
+
+num = 7
+greater_than_10 = ifelse(num > 10,
+                         "greater than 10",
+                         "less than or equal to 10")
+print(greater_than_10)
+
+```
+
+#### Code Q8
+Create a variable called equal_to_10 which will store the value "Equal to 10" if a variable `num` is equal to 10 or otherwise store the value "Not equal to 10". Print this variable.  
+
+```{r}
+
+## WRITE YOUR CODE BELOW THIS LINE
+
+```
+
+
+You can also have nested conditionals. 
+Change the values of `score1` and `score2` to see how the values that get printed change. 
+
+```{r}
+
+score1 = 10
+score2 = 25
+
+score1_vs_score2 = ifelse(score1 > score2,
+                          "greater",
+                          ifelse(score1 < score2,
+                                 "lower",
+                                  "equal"))
+```
+
+#### Written question 3
+What are the possible values that can be stored in the variable `score1_vs_score2`?
+
+**Answer**
+
+
+## Functions
+
+Functions take in inputs, perform some operations on the input, and generate an output. 
+
+
+Different functions take in inputs of different types. For example consider the functions
+
+```{r}
+
+x = c(1:10)
+
+print(sum(x))
+print(mean(x))
+print(max(x))
+print(min(x))
+
+```
+
+If you try to run these same functions on a collection with characters, some of them will not work because these functions require numeric inputs. 
+
+```{r, error=TRUE}
+y = c('a', 'b', 'c')
+
+print(sum(y))
+print(mean(y))
+print(max(y))
+print(min(y))
+
+
+```
+Functions can also take in more than one input. For example, paste takes in multiple inputs. 
+
+```{r}
+
+x = paste("CORES", 119, "FY")
+y = paste("CORES", 119, "FY", sep = "")
+z = paste("CORES", 119, "FY", sep = ",")
+
+print(x)
+print(y)
+print(z)
+
+```
+
+#### Written question 3
+What do you think paste does? What is the sep = "" or sep = "," is doing?
+
+**Answer**
+
+
+## Homework: Putting it all together
+
+Write code that does the following: 
+
+1. Create a variable called `temperature` and store the current temperature. Include a comment to indicate whether it is in Celsius or Fahrenheit.
+
+2. Create a variable called `hot` and store what you would consider to be a hot temperature. 
+
+3. Create a variable called `cold` and store what you would consider to be a cold temperature. 
+
+4. If the current temperature is greater than or equal to what you consider hot, then print "It is hot!". If it is less than or equal to what you consider cold, then print "It is cold!". Otherwise print "It is pleasant!". 
+
+5. Create a collection of `temperatures` from the past 5 hours and store it in a variable called `temperature_5hour`. 
+
+6. Compute the average temperature over the past five hours and store it in a variable called avg. 
+
+7. If the average temperature is greater than or equal to what you consider hot, then print "The past five hours have been hot". If it is less than or equal to what you consider cold, then print "The past five hours have been cold!". Otherwise print "The past five hours have been pleasant!"
+
+**Remember you have to put your code in code chunks!!**
+
+
