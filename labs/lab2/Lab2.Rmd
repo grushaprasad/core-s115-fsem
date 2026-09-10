@@ -6,6 +6,7 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(collapse = TRUE)
+library(stringr)
 ```
 
 
@@ -107,7 +108,7 @@ Assign the average value in the column `weeks_on_chart` in `billboard` to a vari
 You can also add columns to existing dataframes by using the "$" sign. For example, the following code adds a column called rank. 
 
 ```{r}
-billboard$rank = c(1:length(billboard))
+billboard$rank = c(1:nrow(billboard))
 ```
 
 
@@ -157,13 +158,15 @@ Create a variable called `days_on_chart` that stores the number of days that eac
 
 You can use conditionals to create new columns. When you do this, the conditional gets applied to every individual value in the column.
 
-For example, the following code creates a column called `multiple_artists` which holds TRUE if the artist name has the string '&' in it, showing there is more than one artist.
+For example, the following code creates a column called `multiple_artists` which holds TRUE if the artist name has the string '&' in it, showing there is more than one artist. 
+
+*Hint: It might be helpful to look up what `str_detect` is doing!*
 
 (Note the string '&' is different from the logical operator `&` which we will use later!!)
 
 ```{r}
 
-billboard$colab = ifelse('&' %in% billboard$artist, 'Is colab', 'Is not colab')
+billboard$colab = ifelse(str_detect(billboard$artist, '&'), 'Is colab', 'Is not colab')
 
 ```
 
