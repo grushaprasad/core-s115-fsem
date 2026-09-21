@@ -1,0 +1,350 @@
+---
+title: "CORE S115 Fall 2026: Lab 4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+library(ggplot2)
+```
+
+## Part 1: Generating plots from manually created data
+
+### Manually creating data
+
+The following code creates manually creates a dataframe of the toy data we were looking at in class
+
+```{r}
+
+dat1 <- data.frame(
+  music_type = rep(c('White noise', 'Instrumental', 'Pop'), times=2),
+  text_type = rep(c('Fiction', 'Non-fiction'), each=3),
+  mean_recall_score = c(90,92,85,70,78,63)
+)
+
+```
+
+Here is some code that tries to generate a dataframe with one additional text type: Memoir. However, it doesn't work because of an error
+
+```{r, error=TRUE}
+
+dat2 <- data.frame(
+  music_type = rep(c('White noise', 'Instrumental', 'Pop'), times=2),
+  text_type = rep(c('Fiction', 'Non-fiction', 'Memoir'), each=3),
+  mean_recall_score = c(90,92,85,70,78,63,75,80,70)
+)
+
+
+```
+#### Written Q1
+What do you think is causing the error?
+
+**Answer**
+
+
+#### Coding Q1
+
+Fix the error in the code above and correctly create `dat2` such that it has three text types
+```{r}
+
+## Write your code here
+
+
+
+```
+
+
+Here is code that plots the data from `dat1`. 
+
+```{r}
+
+ggplot(dat1, 
+       aes(x=music_type,
+           y=mean_recall_score,
+           fill=music_type,
+           shape=music_type)) + 
+  geom_bar(stat='identity', position = position_dodge(width=0.9)) + 
+  geom_point(position = position_dodge(width=0.9)) +
+  facet_grid(~text_type) + 
+  labs(x = 'Text type', y = 'Recall score') + 
+  lims(y = c(0,100)) + 
+  theme(legend.position = 'top')
+
+
+```
+#### Coding Q2
+
+Generate a plot from `dat2` which the facets (i.e., individual plots) are not the music type, but rather the text type. 
+
+```{r}
+
+## Write your code here
+
+
+
+```
+
+#### Written Q2
+If you ran a study and found the results above, what could you infer from the data?
+
+**Answer**
+
+
+#### Written Q3
+
+Describe one other outcome you could get from this study, which still finds some difference between music types. 
+
+**Answer**
+
+
+#### Coding Q3
+Create `dat3` which stores the "results" of the outcome you described in Written Q3
+
+```{r}
+
+## Write your code here
+
+
+```
+
+#### Coding Q4
+Generate a plot from `dat3` that clearly displays the outcome you described in Written Q3
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+#### Written Q4
+
+Describe one other outcome you could get from this study, which **does not** find a difference between music types.
+
+**Answer**
+
+
+#### Coding Q5
+Create `dat4` which stores the "results" of the outcome you described in Written Q4
+
+```{r}
+
+## Write your code here
+
+
+```
+
+#### Coding Q6
+Generate a plot from `dat3` that clearly displays the outcome you described in Written Q4
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+
+
+## Part 2: Generating plots from existing datasets
+
+For this part, we will work with the House Prices dataset from the last homework
+
+```{r}
+# Read about dataset here: https://vincentarelbundock.github.io/Rdatasets/doc/AER/HousePrices.html
+houses = read.csv("HousePrices.csv")
+
+```
+
+The following code plots the relationship between price and lot size
+
+```{r}
+
+ggplot(houses,
+       aes(x=lotsize, y=price)) + 
+  geom_point() + 
+  geom_smooth(method='lm')
+
+```
+
+#### Written Q5
+Would it make sense to include `geom_bar()` here? Why or why not?
+
+**Answer**
+
+
+#### Written Q5
+What do you think `geom_smooth()` does? 
+
+**Answer**
+
+
+The following code plots the relationship between lot size and price for preferred and dispreferred locations. 
+
+```{r}
+
+ggplot(houses,
+       aes(x=lotsize, y=price, group=prefer, color=prefer)) + 
+  geom_point() + 
+  geom_smooth(method='lm')
+
+```
+
+#### Coding Q7
+Generate a plot that differentiates between prefer by shape AND color, not just color. Also move the legend to the top.
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+#### Coding Q8
+Generate a plot that displays the relationship between price and lotsize for houses with and without aircondition. Differentiate houses with and without aircondition by both shape AND color
+
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+The following code plots the relationship between lot size and price for preferred and dispreferred locations for houses with and without airconditioning, and for houses with different number of garages. 
+```{r}
+
+ggplot(houses,
+       aes(x=lotsize, y=price, group=prefer, color=prefer)) + 
+  geom_point() + 
+  geom_smooth(method='lm') + 
+  facet_grid(aircon~garage)
+
+```
+#### Coding Q8
+Modify the plot above such that the rows are the number of garages, and the columns are whether or not a house has air conditioning. 
+
+*Hint: Remember, `facet_grid` is the thing that creates facets* 
+
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+We can also plot the mean price for houses with different number of bedrooms. But to do this, we need to first create a summary dataset. 
+
+
+```{r}
+
+houses_summ1 = houses %>%
+  group_by(bedrooms) %>%
+  summarize(mean = mean(price))
+
+ggplot(houses_summ1,
+       aes(x=bedrooms, y=mean)) + 
+  geom_bar(stat='identity') + 
+  geom_point()
+
+```
+
+
+#### Coding Q9
+Generate a plot which displays the mean prices of houses with and without gasheat. 
+
+
+```{r}
+
+## Write your code here
+
+
+
+```
+
+We can plot the mean houses prices for multiple factors at once by creating summaries with all of these factors. 
+
+
+```{r}
+
+houses_summ3 = houses %>%
+  group_by(prefer, bedrooms, aircon) %>%
+  summarize(mean = mean(price))
+
+ggplot(houses_summ3,
+       aes(x=bedrooms, y=mean, group=prefer, color=prefer, fill=prefer)) + 
+  geom_bar(stat='identity', position=position_dodge(width=0.9)) + 
+  geom_point(position=position_dodge(width=0.9)) + 
+  facet_grid(~aircon)
+
+
+```
+
+#### Written Q6
+Why do you think some of the bars are thicker than others?
+
+**Answer**
+
+
+
+#### Written Q7
+Why did we add `position_dodge()` here but not to the previous plot? 
+
+**Answer**
+
+
+In the plot above, the labels 'yes' and 'no' are uninformative. We can change that by changing the values in the summary dataframe. 
+
+```{r}
+
+houses_summ4 = houses %>%
+  group_by(prefer, bedrooms, aircon) %>%
+  summarize(mean = mean(price)) %>%
+  mutate(aircon = ifelse(aircon == 'yes',
+                         'Has AC',
+                         'No AC'))
+
+ggplot(houses_summ4,
+       aes(x=bedrooms, y=mean, group=prefer, color=prefer, fill=prefer)) + 
+  geom_bar(stat='identity', position=position_dodge(width=0.9)) + 
+  geom_point(position=position_dodge(width=0.9)) + 
+  facet_grid(~aircon)
+
+
+```
+
+
+#### Coding Q10
+Generate a plot which displays the mean prices of houses for different number of garages, which are with and without AC, and with and without driveways. Make sure to have your facet labels be informative (i.e., don't just have Yes and No)
+
+```{r}
+
+## Write your code here
+
+
+```
+
+
+
+## Homework 
+
+In this part you will generate plots from the titanic dataset. Make sure that all of your plots have informative labels, axes, etc!
+
+1. Load in the titanic dataset
+
+2. Generate a plot that displays the mean ages of the passengers who survived and did not survive. 
+
+3. Generate a plot that displays the mean ages of passengers who survived and did not survive for both men and women.
+
+4. Generate a plot that displays the mean ages of passengers who survived and did not survive for the different passenger classes
+
+5. Generate a plot that displays the mean ages of passengers who survived and did not survive for the different passenger classes AND for men vs. women
+
