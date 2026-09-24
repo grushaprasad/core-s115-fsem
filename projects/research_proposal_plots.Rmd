@@ -1,0 +1,115 @@
+---
+title: "CORE S115 Fall 2026: Template for project proposal plots"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+library(ggplot2)
+```
+
+## How to save plots
+
+You can save plots as files by using the `ggsave` function. 
+Here is an example.
+
+```{r}
+
+sample <- data.frame(indep = c('A', 'B', 'C'),
+                     dep = c(10, 25, 40))
+
+ggplot(sample,
+       aes(x=indep, y=dep, shape=indep, fill = indep)) + 
+  geom_bar(stat='identity') + 
+  geom_point() 
+
+ggsave('plot1.jpg', height = 5, width=7, units='in') 
+```
+
+Note, you can change the filename to be whatever you want, but include `.jpg` as the extension. So it should be FILENAME.jpg where you replace FILENAME with whatever you want. 
+
+The plot will get generated in the same folder as this file. 
+ 
+You can also change the height and width to be whatever you want. Currently the units are in inches, but you can change that to cm or mm if you'd like. 
+
+
+ 
+
+## Generate data that represents possible outcomes
+
+Use this section to generate data for your different possible outcomes. 
+For each outcome, describe the outcome in text and include code to generate the data afterwards. 
+
+Feel free to add more sections and chunks for outcomes. 
+
+
+### Outcome 1
+
+DESCIRBE YOUR OUTCOME HERE 
+```{r}
+
+## Add code to generate data for the outcome here
+
+
+
+```
+
+### Outcome 2
+
+DESCIRBE YOUR OUTCOME HERE 
+```{r}
+
+## Add code to generate data for the outcome here
+
+
+
+```
+
+### Outcome 3
+
+DESCIRBE YOUR OUTCOME HERE 
+```{r}
+
+## Add code to generate data for the outcome here
+
+
+
+```
+
+
+## Plot each of the possible outcomes
+
+You can also generate multiple plots for each outcome if you'd like (e.g., playing around with facets, grouping, etc). 
+Just add more code chunks!
+
+### Outcome 1
+
+```{r}
+
+## Add code to generate plots for the outcome here
+
+
+
+```
+
+### Outcome 2
+
+```{r}
+
+## Add code to generate plots for the outcome here
+
+
+
+```
+
+### Outcome 3
+
+```{r}
+
+## Add code to generate plots for the outcome here
+
+
+
+```
