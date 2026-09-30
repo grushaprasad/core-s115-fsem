@@ -138,7 +138,7 @@ Create `dat4` which stores the "results" of the outcome you described in Written
 ```
 
 #### Coding Q6
-Generate a plot from `dat3` that clearly displays the outcome you described in Written Q4
+Generate a plot from `dat4` that clearly displays the outcome you described in Written Q4
 
 ```{r}
 
