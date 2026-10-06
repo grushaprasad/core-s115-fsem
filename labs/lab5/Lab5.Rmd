@@ -192,7 +192,6 @@ y <- c(1:8)
 data.frame(col1=x, col2=y)
 
 ## A case that doesn't work
-## For data frames, the shorter sequence should be a multiple of the longer sequence
 
 a <- c(1,2,3)
 b <- c(1:8)
@@ -201,7 +200,11 @@ b <- c(1:8)
 data.frame(col1=a, col2=b)
 
 ```
+#### Written Q8
 
+In the code above, why does the first case work but the second case result in an error?  
+
+**Answer**
 
 
 
@@ -228,7 +231,7 @@ Plot the sleep distribution for adults, children and teens to verify that your d
 ```
 
 
-#### Written Q8
+#### Written Q9
 
 In all of the distributions that you have been plotting, is this a data distribution or a sampling distribution? Why? 
 
@@ -257,7 +260,7 @@ ggplot(sleep1_summ,
 
 ```
 
-#### Written Q7
+#### Written Q10
 
 What do the error bars in this plot capture?
 
@@ -281,6 +284,8 @@ Generate a plot that shows the mean sleep for adults, teens, and children from y
 ```{r}
 
 ## WRITE YOUR CODE HERE
+
+
 
 
 ```
