@@ -1,0 +1,256 @@
+---
+title: "CORE S115 Fall 2026: Lab 5"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+## Part 1: Generating simulated data
+
+Let's say Andy has a hypothesis about the average amount of sleep (in hours) that people get per night.
+The following code simulates data that captures this hypothesis.
+
+```{r}
+
+sleep1 = data.frame(
+  person = c(1:1000),
+  s = 7.5,
+  n = rnorm(1000,0,0.5)
+) 
+
+sleep1 = sleep1 %>%
+  mutate(sleep = s+n)
+
+```
+
+#### Written Q1
+
+How many hours does Andy hypothesize people sleep per night? How do you know this?
+
+**Answer**
+
+
+#### Written Q2
+
+If we ignore the extremes of people who get very little or a lot of sleep, and only consider the middle 95% of people, what does Andy hypothesize is the maximum amount of sleep? What is the minimum? 
+
+**Answer**
+
+
+Here is code that plots the distribution of mean sleep in Andy's hypothesis. 
+
+```{r}
+
+ggplot(sleep1, aes(x=sleep)) + 
+  geom_density()
+
+```
+
+#### Written Q3
+
+Does the density plot align with your answer to written Q2? Why or why not? 
+
+**Answer**
+
+
+
+The following code tries to data that captures Andy's hypothesis for 5000 people instead of 1000 people and store it in `sleep2`.
+
+However, it has some errors. 
+
+```{r, error=TRUE}
+
+sleep2 = data.frame(
+  person = c(1:5000),
+  s = 7.5,
+  n = rnorm(1000,0,0.5)
+)
+
+sleep2 %>%
+  mutate(sleep = s+n)
+
+```
+
+
+#### Written Q4
+
+What is the error in the code above? 
+
+**Answer**
+
+
+#### Coding Q1
+
+Write code that fixes the error and correctly creates `sleep2`
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+```
+
+
+#### Coding Q2
+
+Write code that simulates data for the following hypothesis: 
+"People sleep for 7 hours on average, but there is a lot of variability. The range of sleep for 95% of the population is between 3 hours to 11 hours."
+
+Store your data in a variable called `sleep3`
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+
+```
+
+#### Coding Q3
+
+Generate a density plot to verify that you created data that captured the hypothesis correctly. 
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+
+```
+
+
+Here is some code that simulates data for two different groups: children and adults 
+
+```{r}
+
+sleep_group1 = data.frame(
+  person = rep(c(1:5000), each=2),
+  group = rep(c("Adults", "Children"), times=2),
+  s = rep(c(7, 10), times=2),
+  n = rnorm(10000, 0, 1)
+)
+
+sleep_group1 = sleep_group1 %>%
+  mutate(sleep=s+n)
+
+
+```
+
+#### Written Q5
+
+Describe the hypothesis that the `sleep_group1` dataset is supposed to capture
+
+**Answer**
+
+
+
+#### Written Q6
+
+According to the hypothesis in `sleep_group1`, are there some adults and children who get similar amounts of sleep? Why or why not?
+
+
+#### Coding Q4
+
+Verify your answer by generating a density plot which plots the distribution for each group on the same plot in a different color.
+*Hint: Remember how you created grouped bar plots. The same principle applies here!*
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+
+
+```
+
+
+#### Coding Q5
+Simulate data that captures the following hypothesis. You can decide what counts as *some*. 
+"Children sleep the most, then followed by teens. Adults sleep the least. There is some, but not a lot of overlap between these three groups". Store it in a variable called `sleep_group2`
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+```
+
+
+#### Coding Q6
+Plot the sleep distribution for adults, children and teens to verify that your data captures this hypothesis correctly. 
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+```
+
+
+## Part 1: Plotting summaries of simulated data
+
+Here is some code that generates a plot with one bar which captures the average sleep in `sleep1`. 
+
+```{r}
+
+sleep1_summ = sleep1 %>%
+  summarise(mean = mean(sleep),
+            lower = quantile(sleep, c(0.025)),
+            upper = quantile(sleep, c(0.975))) %>%
+  mutate(group="All")
+
+ggplot(sleep1_summ, 
+       aes(x=group, y=mean)) + 
+  geom_bar(stat='identity') + 
+  geom_point() + 
+  geom_errorbar(aes(ymin=lower, ymax=upper))
+
+
+```
+
+#### Written Q7
+
+What do the error bars in this plot capture?
+
+**Answer**
+
+#### Coding Q7
+Modify the above code so that the error bar is narrower, and the bar is a different color.  
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+```
+
+
+#### Coding Q8
+
+Generate a plot that shows the mean sleep for adults, teens, and children from your simulated data. Make sure to include error bars!
+
+```{r}
+
+## WRITE YOUR CODE HERE
+
+
+```
+
+
+## Homework 
+
+In this homework you will simulate dataset to test a hypothesis about how reading strategy type and effort interact with recall score. Specifically, you will be working with two strategies (active vs. passive) and three effort levels (high, medium, low). 
+
+1. Simulate a dataset with 1000 participants which encodes the following hypothesis: overall passive reading results in lower scores than active reading with no real difference between effort levels (i.e., error bars overlap). In active reading high effort results in the highest score, followed by medium effort. The score of the low effort group is the lowest and overlaps with the passive reading condition. Assume that each participant has data from all five conditions. 
+
+*Hint: it might help to visualize how you want your data to look like, then test your code for a small number of participants (e.g., 4), and finally create it for all 1000 participants*
+
+2. Generate a summary bar plot with error bars that displays the hypothesized pattern of data effectively. 
+
+*Hint: think about the approaches we used to visualize multiple factors effectively in earlier labs and homework assignments*
+
+
+
