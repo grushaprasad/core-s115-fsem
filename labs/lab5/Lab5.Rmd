@@ -122,7 +122,7 @@ Generate a density plot to verify that you created data that captured the hypoth
 ```
 
 
-Here is some code that simulates data for two different groups: children and adults 
+Here is some code that simulates data for two different groups: children and adults. It has two data points per person because the data was collected from the same person when they were a child vs. when they were an adult. 
 
 ```{r}
 
@@ -138,6 +138,8 @@ sleep_group1 = sleep_group1 %>%
 
 
 ```
+
+
 
 #### Written Q5
 
@@ -169,6 +171,40 @@ Verify your answer by generating a density plot which plots the distribution for
 ```
 
 
+
+#### Written Q7
+
+If you just ran `rep(c("Adults", "Children"), times=2)` separately, what would it produce? Given this, and everything we've seen in class about creating data frames, why would you expect R to generate an error in the code that creates `sleep_group1`? 
+**Answer**
+
+
+
+
+The reason R doesn't generate an error is because it *recycles* values. If you give it a shorter sequence, it automatically repeats the sequence to match the longer sequence. This is what was happening when you have code like `2 * c(1:10)` where it recycled the value `2` ten times. Here is some more code that shows how recycling works when creating data frames. 
+
+```{r, error=TRUE}
+
+## A case that works
+
+x <- c(1,2)
+y <- c(1:8)
+
+data.frame(col1=x, col2=y)
+
+## A case that doesn't work
+## For data frames, the shorter sequence should be a multiple of the longer sequence
+
+a <- c(1,2,3)
+b <- c(1:8)
+
+
+data.frame(col1=a, col2=b)
+
+```
+
+
+
+
 #### Coding Q5
 Simulate data that captures the following hypothesis. You can decide what counts as *some*. 
 "Children sleep the most, then followed by teens. Adults sleep the least. There is some, but not a lot of overlap between these three groups". Store it in a variable called `sleep_group2`
@@ -192,7 +228,7 @@ Plot the sleep distribution for adults, children and teens to verify that your d
 ```
 
 
-#### Written Q7
+#### Written Q8
 
 In all of the distributions that you have been plotting, is this a data distribution or a sampling distribution? Why? 
 
