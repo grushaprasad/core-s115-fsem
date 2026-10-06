@@ -151,6 +151,8 @@ Describe the hypothesis that the `sleep_group1` dataset is supposed to capture
 
 According to the hypothesis in `sleep_group1`, are there some adults and children who get similar amounts of sleep? Why or why not?
 
+**Answer**
+
 
 #### Coding Q4
 
@@ -188,6 +190,14 @@ Plot the sleep distribution for adults, children and teens to verify that your d
 
 
 ```
+
+
+#### Written Q7
+
+In all of the distributions that you have been plotting, is this a data distribution or a sampling distribution? Why? 
+
+**Answer**
+
 
 
 ## Part 1: Plotting summaries of simulated data
@@ -251,6 +261,9 @@ In this homework you will simulate dataset to test a hypothesis about how readin
 2. Generate a summary bar plot with error bars that displays the hypothesized pattern of data effectively. 
 
 *Hint: think about the approaches we used to visualize multiple factors effectively in earlier labs and homework assignments*
+
+
+
 
 
 
