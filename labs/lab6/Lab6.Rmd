@@ -1,0 +1,426 @@
+---
+title: "CORE S115 Fall 2026: Lab 6"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+
+## Part 1: Programming building blocks
+
+### Loops
+
+A loop is a structure that can run the same code multiple times. 
+Here is an example of code that prints "Hello" 10 times. 
+
+```{r}
+
+for(i in c(1:10)){
+  print("Hello")
+}
+
+```
+
+
+#### Coding Q1
+
+Write code that prints the first 10 multiples of 2 (i.e., 2, 4, 6, 8, ... 20)
+
+```{r}
+
+### Write code here
+
+
+```
+
+
+### Binding dataframes (rbind)
+Sometimes you want to combine two dataframes by pasting them below each other.
+
+
+Here is some code that successfully combines two dataframes x and y
+
+```{r}
+
+x = data.frame(a = c(1:10),
+               b = rnorm(10, 0, 1))
+
+y = data.frame(a = c(1:20),
+               b = rnorm(20, 0, 1))
+
+z = rbind(x,y)
+
+```
+
+#### Written Q1
+
+How many rows does `z` have? How mny columns? Why? 
+
+**Write your answer here**
+
+
+
+
+
+Here is some other code that tries to combine two data frames, but fails
+
+```{r, error=TRUE}
+
+a = data.frame(x = c(1:10),
+               y = rnorm(10, 0, 1))
+
+b = data.frame(a = c(1:20),
+               b = rnorm(20, 0, 1))
+
+c = rbind(a,b)
+
+```
+#### Written Q2
+
+Why does the code above generate an error? How would you fix it? 
+
+**Write your answer here**
+
+
+
+Here is some other code that uses rbind and for loops
+
+```{r}
+
+x = data.frame() ## empty dataframe
+
+for(i in c(1:20)){
+  curr = data.frame(
+    iter = i,
+    val = rnorm(5, 0, 2)
+  )
+  
+  x = rbind(x, curr)
+}
+
+
+```
+
+
+#### Written Q3
+
+Explain what is the code above doing. How many rows are stored in `x`? How many columns? Why? 
+
+**Write your answer here**
+
+
+
+
+### Joining dataframes (left_join)
+
+Sometimes you want to combine columns of two dataframes based on some specific group
+
+For example, say you have a dataframe with someone's name and age, and another dataframe with name and height.
+Here is how you can combine the two dataframes so you have name, age, and height
+
+```{r}
+
+ages = data.frame(
+  names = c('Andy', 'Aaroha', 'Eulalie'),
+  ages = c(29, 14, 4)
+)
+
+heights = data.frame(
+  names = c('Andy', 'Aaroha', 'Eulalie'),
+  heights = c(5.6, 5, 3)
+)
+
+combined = ages %>%
+  left_join(heights, by='names')
+
+```
+
+
+
+#### Coding Q2
+
+Create two summary dataframes from `sleep`. One which computes the mean sleep, and one which computes the upper and lower quantiles. Then combine the two. 
+
+```{r}
+
+sleep = data.frame(
+  person = c(1:1000),
+  s = 7.5,
+  n = rnorm(1000,0,0.5)
+)
+
+
+
+### Write code here to compute mean sleep
+
+
+
+### Write code here to compute upper and lower quantiles
+
+
+
+
+### Write code here to combine the two dataframes using left_join
+
+
+```
+
+
+### Reshaping dataframes
+
+Sometimes you want to take a data frame that is in the long format, and make it wide (for example because you want to compute difference between the columns). You can do this with `pivot_wider`
+
+```{r}
+
+x = data.frame(cond = c('A', 'B'),
+               val = c(10, 7))
+
+
+x_wide = x %>%
+  pivot_wider(names_from = cond,
+              values_from= val)
+
+
+```
+
+#### Coding Q3
+
+Convert the following dataframe into a wide format and create a column called `diff` that stores the difference between conditions X and Y for each id.
+
+```{r}
+
+x2 = data.frame(id = c(1:4),
+               cond = rep(c('X', 'Y'), each=2),
+               val = c(10, 7, 13, 8))
+
+
+## Write your code here
+
+
+```
+
+
+## Part 2: Computing bootstrapped CIs
+
+Here is some code that computes boostrapped CI. 
+
+```{r}
+
+n_boots = 100
+prefer_boots <- data.frame()
+
+for(i in c(1:n_boots)){
+  curr_sample <- house_prices %>%
+    group_by(prefer) %>%
+    slice_sample(prop=1, replace=TRUE) %>%
+    summarise(mean_price = mean(price)) %>%
+    mutate(iter=i)
+  
+  prefer_boots <- rbind(prefer_boots, curr_sample)
+}
+
+prefer_boots_summ <- prefer_boots %>%
+  group_by(prefer) %>%
+  summarise(lower = quantile(mean_price, c(0.025)),
+            upper = quantile(mean_price, c(0.975)))
+
+
+prefer_summ <- house_prices %>%
+  group_by(prefer) %>%
+  summarise(mean=mean(price)) %>%
+  left_join(prefer_boots_summ, by="prefer")
+
+
+```
+
+
+#### Written Q4
+
+Answer the following questions about the code above: 
+
+1. What is the code above doing? 
+2. Why is replace=TRUE necessary?
+3. How many rows are stored in `prefer_boots_summ`? How many columns? Why? 
+4. How many rows are stored in `prefer_summ`? How many columns? Why? 
+5. What is the difference between `prefer_boots_summ` and `prefer_summ`?
+
+**Write your answer here**
+
+
+#### Coding Q4
+
+Generate a plot that uses `prefer_summ` and plots the mean house price for preferred and dispreferred locations along with the 95% bootstrapped CI. 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+
+#### Coding Q5
+
+Generate 95% bootstrapped confidence intervals over the **mean house price** for houses with and without gas heat. 
+The boostrapped distribution should have 1000 samples. 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+
+#### Coding Q6
+
+Generate a plot that plots **mean house price** for houses with and without gas heat along with the 95% bootstrapped CI. 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+#### Coding Q7
+
+Generate 95% bootstrapped confidence intervals over the **mean lotsize** for houses with and without gas heat. 
+The boostrapped distribution should have 1000 samples. 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+
+#### Coding Q8
+
+Generate a plot that plots the **mean lotsize** for houses with and without gas heat along with the 95% bootstrapped CI. 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+## Part 3: Using permutation to compute p-values
+
+Here is some code that computes a p-value to answer the question "Is the mean house price for houses with and without gas heat significantly different?" 
+
+```{r}
+
+## null distribution
+n_boots = 1000
+null_gasheat <- data.frame()
+
+for(i in c(1:n_boots)){
+  curr_null = house_prices %>%
+    mutate(gasheat = sample(gasheat, replace=FALSE)) %>%
+    group_by(gasheat) %>%
+    summarise(mean_price = mean(price)) %>%
+    ungroup() %>%
+    pivot_wider(names_from =gasheat, values_from = mean_price) %>%
+    mutate(diff = yes-no,
+           iter=i)
+
+
+  null_gasheat = rbind(null_gasheat, curr_null)
+}
+
+## true difference
+true_gasheat = house_prices %>%
+  group_by(gasheat) %>%
+  summarise(mean_price = mean(price)) %>%
+  ungroup() %>%
+  pivot_wider(names_from =gasheat, values_from = mean_price) %>%
+    mutate(diff = yes-no,
+           iter=i) 
+
+
+diffs_gasheat = abs(null_gasheat$diff) >= abs(true_gasheat$diff)
+pval_gasheat = mean(diffs_gasheat)
+print(pval_gasheat)
+
+```
+
+#### Written Q5
+
+Answer the following questions about the code above: 
+
+1. What is the code above doing? 
+2. Why do we have replace=FALSE instead of replace=TRUE?
+3. How many rows are stored in `null_gasheat`? How many columns? Why? 
+4. How many rows are stored in `true_gasheat`? How many columns? Why? 
+5. What does the p-value tell you?
+6. Based on the p-value do you think there is a significant difference in house price based on whether or not it has gas heat? Why?
+
+**Write your answer here**
+
+
+#### Coding Q9
+
+Use the same null distribution above to compute a *one-sided p-value* to answer the following question: "Is the mean house prices for houses with gasheat lower than that for houses without gas heat?"
+
+```{r}
+
+### Write your code here
+
+
+```
+
+
+#### Written Q6
+
+Based on the p-value you got, how would you answer the question? 
+
+**Write your answer here**
+
+
+#### Coding Q10
+
+Write that computes a p-value to answer the question "Is the mean lot size for houses with and without gas heat significantly different?" 
+
+```{r}
+
+### Write your code here
+
+
+```
+
+#### Written Q7
+
+Based on the p-value you got, how would you answer the question? 
+
+**Write your answer here**
+
+
+## Homework
+
+Do the following: 
+
+1. Load in the titanic dataset
+
+2. Plot the mean age for men vs. women who did not survive with 95% CI
+
+3. Write code that answers the following question: "Is the mean age for women and men who did not survive significantly different?"
+
+4. Explain how the p-value you computed answers the question. 
+
+5. Plot the mean age for men vs. women survive with 95% CI. 
+
+6.Write code that answers the following question: "Is the mean age for women who survived significantly lower than the men who survived?"
+
+7. Explain how the p-value you computed answers the question. 
