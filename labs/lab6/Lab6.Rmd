@@ -149,17 +149,20 @@ Create two summary dataframes from `sleep`. One which computes the mean sleep, a
 
 sleep = data.frame(
   person = c(1:1000),
-  s = 7.5,
+  s = c(7.5,5.5),
+  cond =c('good', 'poor'),
   n = rnorm(1000,0,0.5)
 )
 
+sleep <- sleep %>%
+  mutate(sleep = s + n)
 
 
-### Write code here to compute mean sleep
+### Write code here to compute mean sleep per condition
 
 
 
-### Write code here to compute upper and lower quantiles
+### Write code here to compute upper and lower quantiles per condition
 
 
 
@@ -193,8 +196,8 @@ Convert the following dataframe into a wide format and create a column called `d
 
 ```{r}
 
-x2 = data.frame(id = c(1:4),
-               cond = rep(c('X', 'Y'), each=2),
+x2 = data.frame(id = c(1, 1, 2, 2),
+               cond = rep(c('X', 'Y'), times=2),
                val = c(10, 7, 13, 8))
 
 
