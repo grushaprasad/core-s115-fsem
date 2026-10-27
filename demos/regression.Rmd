@@ -1,0 +1,237 @@
+---
+title: "CORE S115 Fall 2026: Lab 6"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+## One predictor
+
+### Generate some data 
+
+```{r}
+
+x = c(1:100)
+y1 = 10 + x*0.5 + rnorm(100, 0, 5)
+y2 = 20 + x*-2 + rnorm(100, 0, 5)
+y3 = 40 + rnorm(100, 0, 5)
+
+dat= data.frame(x=x,
+                y1=y1,
+                y2=y2,
+                y3=y3)
+
+```
+
+#### Comprehension check
+
+In the simulated data, what do you think is the relationship between:
+
+* x and y1
+* x and y2
+* x and y3
+
+### Fit regression model
+
+Here is code that fits regression models for each of the three y values. 
+
+```{r}
+
+fit1 = lm(y1 ~ x, data = dat)
+summary(fit1)
+
+```
+
+```{r}
+
+fit2 = lm(y2 ~ x, data = dat)
+summary(fit2)
+
+```
+
+```{r}
+
+fit3 = lm(y3 ~ x, data = dat)
+summary(fit3)
+
+```
+
+
+#### Comprehension check
+
+What do you notice about the coefficient values and the p-values? Does this make sense? Why is the intercept different in each case? 
+
+
+## Two predictors
+
+Here is code that will generate y values that are a combination of two predictors, x1 and x2. 
+
+```{r}
+
+x1 = c(1:100)
+x2 = rep(c(0, 1), times=50)
+
+y1 = 50 + x1*0.5 + x2*-20 + rnorm(100, 0, 5)
+y2 = 50 + x1*-2 + x2*0.01 + rnorm(100, 0, 10)
+
+dat2= data.frame(x1=x1,
+                 x2=x2,
+                 y1=y1,
+                 y2=y2)
+
+```
+
+
+#### Comprehension check
+
+In the simulated data, what do you think is the relationship between:
+
+* x1, x2 and  y1
+* x1, x2 and  y2
+
+
+### Fit regression model
+
+Here is code that fits regression models with two predictors. 
+```{r}
+
+fit4 = lm(y1 ~ x1 + x2, data=dat2)
+summary(fit4)
+
+```
+
+```{r}
+
+fit5 = lm(y2 ~ x1 + x2, data=dat2)
+summary(fit5)
+
+```
+
+#### Comprehension check
+
+What do you notice about the coefficient values and the p-values? Does this make sense? Specifically consider the coefficient and pvalue for x2 in fit5.
+
+
+## Interactions
+
+Here is code that will generate y values that are a combination of two predictors, x1 and x2, and where the two predictors interact. 
+
+```{r}
+
+x1 = c(1:100)
+x2 = rep(c(0, 1), times=50)
+
+y1 = 50 + x1*0.5 + x2*-20 + x1*x2*1 + rnorm(100, 0, 5)
+y2 = 50 + x1*-2 + x2*10 + x1*x2*-0.01 + rnorm(100, 0, 5)
+
+dat2= data.frame(x1=x1,
+                 x2=x2,
+                 y1=y1,
+                 y2=y2)
+
+```
+
+```{r}
+
+fit6 = lm(y1 ~ x1 + x2 + x1:x2, data=dat2)
+summary(fit6)
+
+```
+
+```{r}
+
+fit7 = lm(y2 ~ x1 + x2 + x1:x2, data=dat2)
+summary(fit7)
+
+```
+
+## Factors
+
+### Categorical variable with two categories
+When data is categorical R automatically assigns one of the predictors -- specifically the predictor which is alphabetically first. Consider the following case. 
+
+```{r}
+
+x = rep(c('Instrumental', 'Noise'), times=50)
+x_num = ifelse(x=='Noise', 0, 1) 
+
+y = 65 + x_num*10 + rnorm(100, 0, 5)
+
+
+dat3 = data.frame(x=x,
+                  y=y)
+
+```
+
+```{r}
+
+fit8 <- lm(y~x, data=dat3)
+summary(fit8)
+
+```
+#### Comprehension check
+
+Why is the coefficient negative? What does this tell you about what is being considered a "baseline"? Does this make sense?
+
+
+### Categorical variable with more than two categories
+
+
+And if the variable has more than two categories (or "levels") then it assigns the first alphabetical as the "baseline" and computes a coefficient comparing the baseline to each of the others.
+
+```{r}
+
+x = rep(c('Pop', 'Instrumental', 'Noise'), times=50)
+x_num = ifelse(x=='Noise', 0, 1) 
+
+y = 65 + x_num*10 + rnorm(150, 0, 5)
+
+
+dat4 = data.frame(x=x,
+                  y=y)
+
+```
+
+```{r}
+
+fit9 <- lm(y~x, data=dat4)
+summary(fit9)
+
+```
+#### Comprehension check
+
+Why is one of the coefficients negative and one positive? What does this tell you about what is being considered the "baseline"? Does this baseline make sense? 
+
+
+### Changing what is assigned as the baseline
+
+The following code explicitly changes the ordering of the categories, and therefore what is considered baseline
+
+```{r}
+
+dat5 = dat4 %>%
+  mutate(x = factor(x, levels=c('Noise', 'Instrumental', 'Pop')))
+
+
+```
+
+```{r}
+
+fit10 <- lm(y~x, data=dat5)
+summary(fit10)
+
+```
+#### Comprehension check
+
+What could you do if you wanted to set Pop as the baseline? 
+
+
+#### Extra comprehension check (its ok if you don't fully get this!)
+
+You will notice that only the intercept in `fit8` matches the number we were adding. The other two intercepts were off by about 10. Why do you think this is? *Hint: look at `x_num` and what role it plays in the data generation!*
+
+
