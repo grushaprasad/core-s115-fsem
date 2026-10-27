@@ -152,7 +152,7 @@ summary(fit7)
 ## Factors
 
 ### Categorical variable with two categories
-When data is categorical R automatically assigns one of the predictors -- specifically the predictor which is alphabetically first. Consider the following case. 
+When data is categorical R automatically assigns one of the predictors as the baseline -- specifically the predictor which is alphabetically first. Consider the following case. 
 
 ```{r}
 
