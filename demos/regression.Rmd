@@ -1,5 +1,5 @@
 ---
-title: "CORE S115 Fall 2026: Lab 6"
+title: "CORE S115 Fall 2026: Regression demo"
 output: pdf_document
 ---
 
