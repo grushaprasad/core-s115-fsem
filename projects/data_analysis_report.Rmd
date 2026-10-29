@@ -1,0 +1,79 @@
+---
+title: "CORE S115 Fall 2026: Data analysis project"
+author: [YOUR NAME HERE]
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(collapse = TRUE)
+library(tidyverse)
+```
+
+## Introduction
+
+### Questions
+
+In this sub-section state your questions. Remember, your dependent variable should be continouous and your questions should meet the following minimum requirements: 
+
+* One of your questions should look at the relationship between your dependent variable and a **discrete** predictor
+* One of your questions should look at the relationship between your dependent variable and a **continuous** predictor
+* One of your questions should look at the interaction between your discrete and continuous predictors
+
+You are welcome to have more than three questions! 
+
+### Hypotheses
+
+In this sub-section, convert each of the your questions into null and alternative hypotheses
+
+
+## Dataset description
+
+In this section, do the following: 
+
+* Load in the dataset
+* Describe your dataset (how many rows and columns, what does each row represent, etc)
+* (If relevant) appropriately modify the dataset (e.g., add columns, filters rows, etc) and clearly motivate the modifications
+* Clearly explain which columns are relevant for testing each of your null hypotheses
+
+## Question 1: ADD THE QUESTION HERE
+
+### Descriptive analysis
+
+Generate a plot that helps answer the question, and interpret the plot. In your plot, make sure to include 95% Bootstrapped CI or line of best fit (whichever is relevant)
+
+
+### Statistical analysis
+
+Fit a linear regression model that tests the null hypothesis for this question. Based on the coefficients and p-values, clearly indicate whether the null hypothesis can be rejected. Explain why. 
+
+## Question 2: ADD THE QUESTION HERE
+
+### Descriptive analysis
+
+Generate a plot that helps answer the question, and interpret the plot. In your plot, make sure to include 95% Bootstrapped CI or line of best fit (whichever is relevant)
+
+
+### Statistical analysis
+
+Fit a linear regression model that tests the null hypothesis for this question. Based on the coefficients and p-values, clearly indicate whether the null hypothesis can be rejected. Explain why. 
+
+
+## Question 3: ADD THE QUESTION HERE
+
+### Descriptive analysis
+
+Generate a plot that helps answer the question, and interpret the plot. In your plot, make sure to include 95% Bootstrapped CI or line of best fit (whichever is relevant)
+
+
+### Statistical analysis
+
+Fit a linear regression model that tests the null hypothesis for this question. Based on the coefficients and p-values, clearly indicate whether the null hypothesis can be rejected. Explain why. 
+
+## Summary and discussion
+
+In this section, synthesize the answers to the three questions to paint an overall picture. Minimally, answer the following questions: 
+
+* What overall conclusions can you draw form all of you your analyses combined? How confident are you about your conclusions? 
+* How did the analysis with the interaction refine the answers to the questions without the interaction? If you had only looked at the questions without the interaction do you think you would have been able to draw accurate conclusions? Why or why not? 
+
